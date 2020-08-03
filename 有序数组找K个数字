@@ -1,0 +1,39 @@
+int FindKthElm(int A[],int abeg,int aend,int B[],int bbeg,int bend,int k)
+{
+    if(abeg > aend)
+    {
+        return B[bbeg+k-1];
+    }
+    if(bbeg > bend)
+    {
+        return A[abeg+k-1];
+    }
+    //取中间位置
+    int amid=abeg+(aend-abeg)/2;
+    int bmid=bbeg+(bend-bbeg)/2;
+    
+    //从A和B的开始位置到两个数组中间位置的元素个数
+    int halfLen = amid - abeg + bmid - bbeg + 2;
+    if(A[amid] < B[bmid])
+    {
+        if(halfLen > k)
+        {
+            return FindKthElm(A, abeg, aend, B, bbeg, bmid-1, k);
+        }
+        else
+        {
+            return FindKthElm(A, amid+1, aend, B, bbeg, bend, k-(amid-abeg+1));
+        }
+    }
+    else
+    {
+        if(halfLen > k)
+        {
+            return FindKthElm(A, abeg, amid-1, B, bbeg, bend, k);
+        }
+        else
+        {
+            return FindKthElm(A, abeg, aend, B, bmid+1, bend, k-(bmid-bbeg+1));
+        }
+    }
+}
